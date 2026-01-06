@@ -16,14 +16,38 @@
         </div>
     </header>
     <main>
-      <section class="grid grid-cols-1 md:grid-cols-2 gap-4 px-2 py-4 max-w-6xl m-auto">
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 max-w-6xl m-auto">
         <div class="bg-white border border-gray-200 rounded-xl p-4">
-          <h2 class="text-gray-500">Total Today</h2>
+          <h2 class="text-sm text-gray-500">Total Today</h2>
           <div class = "totalToday font-bold text-3xl text-green-600">0.00</div>
         </div>
         <div class="bg-white border border-gray-200 rounded-xl p-4">
-          <h2 class="text-gray-500">Total Month</h2>
+          <h2 class="text-sm text-gray-500">Total Month</h2>
           <div class = "totalMonth font-bold text-3xl text-green-600">0.00</div>
+        </div>
+      </section>
+      <section class="p-4 max-w-6xl m-auto mt-6">
+        <div class="bg-white border border-gray-200 rounded-xl p-6">
+          <h2 class="text-xl md:text-2xl font-bold">Add new expense</h2>
+          <form class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <div class="flex flex-col gap-2">
+              <label for="amount" class="text-sm font-medium text-gray-700">Amount</label>
+              <input type="number" id="amount" placeholder="0.00" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="category" class="text-sm font-medium text-gray-700">Category</label>
+              <input type="text" id="category" placeholder="e.g. Groceries" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="date" class="text-sm font-medium text-gray-700">Date</label>
+              <input type="date" id="date" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="note" class="text-sm font-medium text-gray-700">Note</label>
+              <input type="text" id="note" placeholder="What was this for?" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+            <button class="w-full md:col-span-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-4">Add Expense</button>
+          </form>
         </div>
       </section>
     </main>
