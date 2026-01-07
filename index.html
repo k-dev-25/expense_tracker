@@ -8,22 +8,24 @@
   </head>
   <body class="bg-slate-50 text-slate-900 min-h-screen">
     <header>
-        <div class="bg-white border-b border-gray-200">
-            <div class="px-2 py-4 max-w-6xl m-auto text-center">
-                <h1 class="text-2xl md:text-3xl mb-2">Smart Expense Tracker</h1>
-                <p class="text-gray-500">Track your daily spending</p>
-            </div>
+      <div class="bg-white border-b border-gray-200">
+        <div class="px-2 py-4 max-w-6xl m-auto text-center">
+          <h1 class="text-2xl md:text-3xl mb-2">Smart Expense Tracker</h1>
+          <p class="text-gray-500">Track your daily spending</p>
         </div>
+      </div>
     </header>
-    <main>
-      <section class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 max-w-6xl m-auto">
+    <main class="mt-6">
+      <section
+        class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 max-w-6xl m-auto"
+      >
         <div class="bg-white border border-gray-200 rounded-xl p-4">
           <h2 class="text-sm text-gray-500">Total Today</h2>
-          <div class = "totalToday font-bold text-3xl text-green-600">0.00</div>
+          <div class="totalToday font-bold text-3xl text-green-600">0.00</div>
         </div>
         <div class="bg-white border border-gray-200 rounded-xl p-4">
           <h2 class="text-sm text-gray-500">Total Month</h2>
-          <div class = "totalMonth font-bold text-3xl text-green-600">0.00</div>
+          <div class="totalMonth font-bold text-3xl text-green-600">0.00</div>
         </div>
       </section>
       <section class="p-4 max-w-6xl m-auto mt-6">
@@ -31,23 +33,145 @@
           <h2 class="text-xl md:text-2xl font-bold">Add new expense</h2>
           <form class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
             <div class="flex flex-col gap-2">
-              <label for="amount" class="text-sm font-medium text-gray-700">Amount</label>
-              <input type="number" id="amount" placeholder="0.00" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+              <label for="amount" class="text-sm font-medium text-gray-700"
+                >Amount</label
+              >
+              <input
+                type="number"
+                id="amount"
+                placeholder="0.00"
+                class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                required
+              />
             </div>
             <div class="flex flex-col gap-2">
-              <label for="category" class="text-sm font-medium text-gray-700">Category</label>
-              <input type="text" id="category" placeholder="e.g. Groceries" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+              <label for="category" class="text-sm font-medium text-gray-700"
+                >Category</label
+              >
+              <input
+                type="text"
+                id="category"
+                placeholder="e.g. Groceries"
+                class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                required
+              />
             </div>
             <div class="flex flex-col gap-2">
-              <label for="date" class="text-sm font-medium text-gray-700">Date</label>
-              <input type="date" id="date" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+              <label for="date" class="text-sm font-medium text-gray-700"
+                >Date</label
+              >
+              <input
+                type="date"
+                id="date"
+                class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                required
+              />
             </div>
             <div class="flex flex-col gap-2">
-              <label for="note" class="text-sm font-medium text-gray-700">Note</label>
-              <input type="text" id="note" placeholder="What was this for?" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <label for="note" class="text-sm font-medium text-gray-700"
+                >Note</label
+              >
+              <input
+                type="text"
+                id="note"
+                placeholder="What was this for?"
+                class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
             </div>
-            <button class="w-full md:col-span-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-4">Add Expense</button>
+            <button
+              class="w-full md:col-span-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-4 transition-colors"
+            >
+              Add Expense
+            </button>
           </form>
+        </div>
+      </section>
+      <section class="p-4 max-w-6xl m-auto mt-6">
+        <div class="bg-white border border-gray-200 rounded-2xl p-6">
+          <h2 class="text-xl md:text-2xl font-bold">Expenses</h2>
+          <div class="noExpenses mt-4">
+            <p>No Expenses added yet</p>
+          </div>
+          <div class="expensesTable mt-4 hidden md:block">
+            <table class="table-fixed w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-gray-200">
+                  <th class="py-3 px-4 text-sm font-semibold text-gray-600">
+                    Date
+                  </th>
+                  <th class="py-3 px-4 text-sm font-semibold text-gray-600">
+                    Category
+                  </th>
+                  <th class="py-3 px-4 text-sm font-semibold text-gray-600">
+                    Amount
+                  </th>
+                  <th class="py-3 px-4 text-sm font-semibold text-gray-600">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-gray-100 italic">
+                  <td class="p-4 text-gray-500">12 Aug</td>
+                  <td class="p-4 text-gray-500">Food</td>
+                  <td class="p-4 font-medium">250</td>
+                  <td class="p-4">
+                    <button
+                      class="bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr class="border-b border-gray-100 italic">
+                  <td class="p-4 text-gray-500">12 Aug</td>
+                  <td class="p-4 text-gray-500">Food</td>
+                  <td class="p-4 font-medium">250</td>
+                  <td class="p-4">
+                    <button
+                      class="bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="expensesCards mt-4 md:hidden">
+            <div class="w-full border-b border-gray-200 p-4 flex flex-col gap-4">
+              <div class="row1 flex justify-between gap-4">
+                <div class="text-gray-500">Food</div>
+                <div class="font-medium">250</div>
+              </div>
+              <div class="row2 flex justify-between gap-4">
+                <div class="text-gray-500">12 Aug</div>
+                <div>
+                  <button
+                    class="bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="w-full border-b border-gray-200 p-4 flex flex-col gap-4">
+              <div class="row1 flex justify-between gap-4">
+                <div class="text-gray-500">Food</div>
+                <div class="font-medium">250</div>
+              </div>
+              <div class="row2 flex justify-between gap-4">
+                <div class="text-gray-500">12 Aug</div>
+                <div>
+                  <button
+                    class="bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
