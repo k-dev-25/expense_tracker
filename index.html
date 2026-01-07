@@ -37,7 +37,7 @@
                 >Amount</label
               >
               <input
-                type="number"
+                type="text"
                 id="amount"
                 placeholder="0.00"
                 class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -92,8 +92,9 @@
           <div class="noExpenses mt-4">
             <p>No Expenses added yet</p>
           </div>
-          <div class="expensesTable mt-4 hidden md:block">
-            <table class="table-fixed w-full text-left border-collapse">
+          <div class="expensesList hidden">
+            <div class="expensesTable mt-4 hidden md:block">
+              <table class="table-fixed w-full text-left border-collapse">
               <thead>
                 <tr class="border-b border-gray-200">
                   <th class="py-3 px-4 text-sm font-semibold text-gray-600">
@@ -111,69 +112,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="border-b border-gray-100 italic">
-                  <td class="p-4 text-gray-500">12 Aug</td>
-                  <td class="p-4 text-gray-500">Food</td>
-                  <td class="p-4 font-medium">250</td>
-                  <td class="p-4">
-                    <button
-                      class="bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr class="border-b border-gray-100 italic">
-                  <td class="p-4 text-gray-500">12 Aug</td>
-                  <td class="p-4 text-gray-500">Food</td>
-                  <td class="p-4 font-medium">250</td>
-                  <td class="p-4">
-                    <button
-                      class="bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
+                
               </tbody>
             </table>
           </div>
-          <div class="expensesCards mt-4 md:hidden">
-            <div class="w-full border-b border-gray-200 p-4 flex flex-col gap-4">
-              <div class="row1 flex justify-between gap-4">
-                <div class="text-gray-500">Food</div>
-                <div class="font-medium">250</div>
-              </div>
-              <div class="row2 flex justify-between gap-4">
-                <div class="text-gray-500">12 Aug</div>
-                <div>
-                  <button
-                    class="bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="w-full border-b border-gray-200 p-4 flex flex-col gap-4">
-              <div class="row1 flex justify-between gap-4">
-                <div class="text-gray-500">Food</div>
-                <div class="font-medium">250</div>
-              </div>
-              <div class="row2 flex justify-between gap-4">
-                <div class="text-gray-500">12 Aug</div>
-                <div>
-                  <button
-                    class="bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div class="expensesCards mt-4 block md:hidden">
+
           </div>
         </div>
-      </section>
+      </div>
+    </section>
     </main>
     <script src="src/script.js"></script>
   </body>
