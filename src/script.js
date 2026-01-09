@@ -1,19 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
   let expenses = [];
 
+  
+  const select = document.querySelector('select')
+  
   const totalToday = document.querySelector(".totalToday");
   const totalMonth = document.querySelector(".totalMonth");
-
+  
   const form = document.querySelector("form");
   const amountInput = document.getElementById("amount");
   const categoryInput = document.getElementById("category");
   const dateInput = document.getElementById("date");
   const noteInput = document.getElementById("note");
-
+  
   const expensesTableBody = document.querySelector(".expensesTable tbody");
   const expensesCardsContainer = document.querySelector(".expensesCards");
   const expensesList = document.querySelector(".expensesList");
   const emptyState = document.querySelector(".noExpenses");
+  
+  let currency = select.value;
+
+  select.addEventListener('change', () => {
+    currency = select.value;
+    renderExpenses();
+  })
+
+  function formatAmount(amount) {
+    if(currency === "INR") return `₹ ${amount}`;
+    else if(currency === "USD") return `$ ${amount}`;
+    else return `€ ${amount}`;
+  }
 
   function updateTotals() {
     if (expenses.length === 0) {
@@ -32,8 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (expense.date.slice(0, 7) === month) monthTotal += expense.amount;
     });
 
-    totalToday.innerText = todayTotal.toFixed(2);
-    totalMonth.innerText = monthTotal.toFixed(2);
+    totalToday.innerText = formatAmount(todayTotal.toFixed(2));
+    totalMonth.innerText = formatAmount(monthTotal.toFixed(2));
   }
 
   form.addEventListener("submit", (e) => {
@@ -79,14 +95,14 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTotals();
     expensesTableBody.innerHTML = "";
     expensesCardsContainer.innerHTML = "";
-    sortedExpenses = [...expenses].sort((a, b) => b.date.localeCompare(a.date))
+    const sortedExpenses = [...expenses].sort((a, b) => b.date.localeCompare(a.date))
     sortedExpenses.forEach((expense) => {
       const row = document.createElement("tr");
       row.className = "border-b border-gray-100";
       row.innerHTML = `
                 <td class="p-4 text-gray-500">${expense.date.split("-").reverse().join("/")}</td>
                 <td class="p-4 text-gray-500">${expense.category}</td>
-                <td class="p-4 font-medium">${expense.amount}</td>
+                <td class="p-4 font-medium">${formatAmount(expense.amount)}</td>
                 <td class="p-4">
                     <button class="delete-btn bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors" data-id="${expense.id}">
                         Delete
@@ -101,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.innerHTML = `
                 <div class="row1 flex justify-between gap-4">
                     <div class="text-gray-500">${expense.category}</div>
-                    <div class="font-medium">${expense.amount}</div>
+                    <div class="font-medium">${formatAmount(expense.amount)}</div>
                 </div>
                 <div class="row2 flex justify-between gap-4">
                     <div class="text-gray-500">${expense.date}</div>
