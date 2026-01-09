@@ -32,9 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let lastTime = JSON.parse(localStorage.getItem("lastTime"));
     if (lastTime === null || currentTime - lastTime > 24 * 60 * 60 * 1000) {
       try {
-        const response = await fetch(
-          "https://api.frankfurter.dev/v1/latest?base=INR&symbols=USD,EUR"
-        );
+        const response = await fetch("https://open.er-api.com/v6/latest/INR");
         const data = await response.json();
         rates = data["rates"];
         lastTime = currentTime;
@@ -44,10 +42,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         alert(
           "New rates could not be fetched, but app will work with old rates."
         );
+        rates = JSON.parse(localStorage.getItem("rates")) || {};
       }
-    } else {
-      rates = JSON.parse(localStorage.getItem("rates")) || {};
     }
+    if (Object.keys(rates).length === 0) select.disabled = true;
   }
 
   await getExchangeRates();
