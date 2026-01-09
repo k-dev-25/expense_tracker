@@ -1,33 +1,70 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   let expenses = [];
 
-  
-  const select = document.querySelector('select')
-  
+  let rates = {};
+
+  const select = document.querySelector("select");
+
   const totalToday = document.querySelector(".totalToday");
   const totalMonth = document.querySelector(".totalMonth");
-  
+
   const form = document.querySelector("form");
   const amountInput = document.getElementById("amount");
   const categoryInput = document.getElementById("category");
   const dateInput = document.getElementById("date");
   const noteInput = document.getElementById("note");
-  
+
   const expensesTableBody = document.querySelector(".expensesTable tbody");
   const expensesCardsContainer = document.querySelector(".expensesCards");
   const expensesList = document.querySelector(".expensesList");
   const emptyState = document.querySelector(".noExpenses");
-  
+
   let currency = select.value;
 
-  select.addEventListener('change', () => {
+  select.addEventListener("change", () => {
     currency = select.value;
+    localStorage.setItem("currency", currency);
     renderExpenses();
-  })
+  });
+
+  async function getExchangeRates() {
+    const currentTime = Date.now();
+    let lastTime = JSON.parse(localStorage.getItem("lastTime"));
+    if (lastTime === null || currentTime - lastTime > 24 * 60 * 60 * 1000) {
+      try {
+        const response = await fetch(
+          "https://api.frankfurter.dev/v1/latest?base=INR&symbols=USD,EUR"
+        );
+        const data = await response.json();
+        rates = data["rates"];
+        lastTime = currentTime;
+        localStorage.setItem("rates", JSON.stringify(rates));
+        localStorage.setItem("lastTime", lastTime);
+      } catch {
+        alert(
+          "New rates could not be fetched, but app will work with old rates."
+        );
+      }
+    } else {
+      rates = JSON.parse(localStorage.getItem("rates")) || {};
+    }
+  }
+
+  await getExchangeRates();
+
+  function convertAmount(amount) {
+    if (currency === "INR") return amount;
+
+    const rate = rates[currency];
+    if (typeof rate !== "number") return amount;
+
+    return amount * rate;
+  }
 
   function formatAmount(amount) {
-    if(currency === "INR") return `₹ ${amount}`;
-    else if(currency === "USD") return `$ ${amount}`;
+    amount = amount.toFixed(2);
+    if (currency === "INR") return `₹ ${amount}`;
+    else if (currency === "USD") return `$ ${amount}`;
     else return `€ ${amount}`;
   }
 
@@ -47,9 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (expense.date === today) todayTotal += expense.amount;
       if (expense.date.slice(0, 7) === month) monthTotal += expense.amount;
     });
-
-    totalToday.innerText = formatAmount(todayTotal.toFixed(2));
-    totalMonth.innerText = formatAmount(monthTotal.toFixed(2));
+    totalToday.innerText = formatAmount(convertAmount(todayTotal));
+    totalMonth.innerText = formatAmount(convertAmount(monthTotal));
   }
 
   form.addEventListener("submit", (e) => {
@@ -83,6 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadExpenses();
 
+  const savedCurrency = localStorage.getItem("currency");
+  if (savedCurrency !== null) {
+    currency = savedCurrency;
+    select.value = savedCurrency;
+  }
+
   function renderExpenses() {
     if (expenses.length === 0) {
       emptyState.classList.remove("hidden");
@@ -95,16 +137,25 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTotals();
     expensesTableBody.innerHTML = "";
     expensesCardsContainer.innerHTML = "";
-    const sortedExpenses = [...expenses].sort((a, b) => b.date.localeCompare(a.date))
+    const sortedExpenses = [...expenses].sort((a, b) =>
+      b.date.localeCompare(a.date)
+    );
     sortedExpenses.forEach((expense) => {
       const row = document.createElement("tr");
       row.className = "border-b border-gray-100";
       row.innerHTML = `
-                <td class="p-4 text-gray-500">${expense.date.split("-").reverse().join("/")}</td>
+                <td class="p-4 text-gray-500">${expense.date
+                  .split("-")
+                  .reverse()
+                  .join("/")}</td>
                 <td class="p-4 text-gray-500">${expense.category}</td>
-                <td class="p-4 font-medium">${formatAmount(expense.amount)}</td>
+                <td class="p-4 font-medium">${formatAmount(
+                  convertAmount(expense.amount)
+                )}</td>
                 <td class="p-4">
-                    <button class="delete-btn bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors" data-id="${expense.id}">
+                    <button class="delete-btn bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors" data-id="${
+                      expense.id
+                    }">
                         Delete
                     </button>
                 </td>
@@ -117,12 +168,16 @@ document.addEventListener("DOMContentLoaded", () => {
       card.innerHTML = `
                 <div class="row1 flex justify-between gap-4">
                     <div class="text-gray-500">${expense.category}</div>
-                    <div class="font-medium">${formatAmount(expense.amount)}</div>
+                    <div class="font-medium">${formatAmount(
+                      convertAmount(expense.amount)
+                    )}</div>
                 </div>
                 <div class="row2 flex justify-between gap-4">
                     <div class="text-gray-500">${expense.date}</div>
                     <div>
-                        <button class="delete-btn bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors" data-id="${expense.id}">
+                        <button class="delete-btn bg-red-500 rounded-lg text-white py-1 px-3 text-sm hover:bg-red-600 transition-colors" data-id="${
+                          expense.id
+                        }">
                             Delete
                         </button>
                     </div>
