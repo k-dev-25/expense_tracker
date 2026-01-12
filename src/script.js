@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const expensesCardsContainer = document.querySelector(".expensesCards");
   const expensesList = document.querySelector(".expensesList");
   const emptyState = document.querySelector(".noExpenses");
+  const amountError = document.querySelector(".amount-error");
+  const dateError = document.querySelector(".date-error");
 
   let currency = select.value;
 
@@ -25,6 +27,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     currency = select.value;
     localStorage.setItem("currency", currency);
     renderExpenses();
+  });
+
+  amountInput.addEventListener("input", () => {
+    if (validateAmount(amountInput.value)) clearAmountError();
+    else showAmountError("Please enter a valid positive number");
+  });
+
+  dateInput.addEventListener("change", () => {
+    const result = validateDate(dateInput.value);
+    if (result === "Valid") clearDateError();
+    else showDateError(result);
   });
 
   async function getExchangeRates() {
@@ -66,6 +79,64 @@ document.addEventListener("DOMContentLoaded", async () => {
     else return `€ ${amount}`;
   }
 
+  function validateAmount(rawAmount) {
+    const amount = rawAmount.trim();
+    if (amount === "") return false;
+    let numbers = Number(amount);
+    if (Number.isNaN(numbers)) return false;
+    if (numbers <= 0) return false;
+    return true;
+  }
+
+  function validateDate(rawDate) {
+    if (rawDate === "") return "Empty";
+    const inputDate = new Date(rawDate);
+    const todayDate = new Date();
+    const lastAllowedDate = new Date("1970-01-01");
+    inputDate.setHours(0, 0, 0, 0);
+    todayDate.setHours(0, 0, 0, 0);
+    lastAllowedDate.setHours(0, 0, 0, 0);
+    if (inputDate < lastAllowedDate) return "Too Old";
+    if (inputDate > todayDate) return "Future"
+    return "Valid";
+  }
+
+  function showAmountError(message) {
+    amountInput.classList.remove("focus:ring-blue-500");
+    amountInput.classList.add("focus:ring-red-400");
+    amountInput.classList.add("border-red-500");
+    amountError.textContent = message;
+    amountError.classList.remove("hidden");
+  }
+
+  function showDateError(result) {
+    dateInput.classList.remove("focus:ring-blue-500");
+    dateInput.classList.add("focus:ring-red-400");
+    dateInput.classList.add("border-red-500");
+    let error = "";
+    if (result === "Empty") error = "Please select a Date";
+    else if (result === "Too Old") error = "Date cannot be earlier than 1970";
+    else if (result === "Future") error = "Date cannot be in the future";
+    dateError.textContent = error;
+    dateError.classList.remove("hidden");
+  }
+
+  function clearAmountError() {
+    amountInput.classList.add("focus:ring-blue-500");
+    amountInput.classList.remove("focus:ring-red-400");
+    amountInput.classList.remove("border-red-500");
+    amountError.textContent = "";
+    amountError.classList.add("hidden");
+  }
+
+  function clearDateError() {
+    dateInput.classList.add("focus:ring-blue-500");
+    dateInput.classList.remove("focus:ring-red-400");
+    dateInput.classList.remove("border-red-500");
+    dateError.textContent = "";
+    dateError.classList.add("hidden");
+  }
+
   function updateTotals() {
     if (expenses.length === 0) {
       totalToday.innerText = "0.00";
@@ -88,7 +159,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (Number(amountInput.value) <= 0) return;
+
+    clearAmountError();
+    clearDateError();
+    if (!validateAmount(amountInput.value)) {
+      showAmountError("Please enter a valid positive number");
+      return;
+    }
+    const dateValidation = validateDate(dateInput.value);
+    if (dateValidation !== "Valid") {
+      showDateError(dateValidation);
+      return;
+    }
+
     const expense = {
       id: Date.now(),
       amount: Number(amountInput.value),
