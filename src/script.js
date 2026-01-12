@@ -58,10 +58,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         rates = JSON.parse(localStorage.getItem("rates")) || {};
       }
     }
-    if (Object.keys(rates).length === 0) select.disabled = true;
   }
 
   await getExchangeRates();
+  if (Object.keys(rates).length === 0) select.disabled = true;
+  else select.disabled = false;
 
   function convertAmount(amount) {
     if (currency === "INR") return amount;
@@ -97,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     todayDate.setHours(0, 0, 0, 0);
     lastAllowedDate.setHours(0, 0, 0, 0);
     if (inputDate < lastAllowedDate) return "Too Old";
-    if (inputDate > todayDate) return "Future"
+    if (inputDate > todayDate) return "Future";
     return "Valid";
   }
 
@@ -172,9 +173,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    let amountINR;
+    const amount = Number(amountInput.value);
+    if (currency !== "INR") amountINR = amount / rates[currency];
+    else amountINR = amount;
+
     const expense = {
       id: Date.now(),
-      amount: Number(amountInput.value),
+      amount: amountINR,
       category: categoryInput.value.trim(),
       date: dateInput.value,
       note: noteInput.value.trim(),
