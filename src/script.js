@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const expensesTableBody = document.querySelector(".expensesTable tbody");
   const expensesCardsContainer = document.querySelector(".expensesCards");
   const expensesList = document.querySelector(".expensesList");
+  const exportCSV = document.getElementById("exportCSV");
   const emptyState = document.querySelector(".noExpenses");
   const amountError = document.querySelector(".amount-error");
   const dateError = document.querySelector(".date-error");
@@ -288,4 +289,32 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   renderExpenses();
+
+  function buildCSV(expenses) {
+    let csv = `Date,Category,Amount (${currency}),Note\n`;
+    expenses.forEach((expense) => {
+      csv += `"${expense.date}","${expense.category}",${convertAmount(expense.amount).toFixed(2)},"${expense.note}"\n`;
+    });
+    return csv;
+  }
+
+  function downloadCSV(csv) {
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "expenses.csv";
+
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  exportCSV.addEventListener("click", () => {
+    const csv = buildCSV(expenses);
+    downloadCSV(csv);
+  });
 });

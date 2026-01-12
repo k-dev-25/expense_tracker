@@ -16,12 +16,16 @@
       </div>
     </header>
     <main class="mt-6">
-      <section
-        class="p-4 max-w-6xl m-auto"
-      >
-        <div class="flex items-center gap-4 text-sm font-medium bg-white border border-gray-200 rounded-xl p-4">
+      <section class="p-4 max-w-6xl m-auto">
+        <div
+          class="flex items-center gap-4 text-sm font-medium bg-white border border-gray-200 rounded-xl p-4"
+        >
           <label for="currency">Currency</label>
-          <select name="currency" id="currency" class="border border-gray-200 rounded-lg p-2">
+          <select
+            name="currency"
+            id="currency"
+            class="border border-gray-200 rounded-lg p-2"
+          >
             <option value="INR" selected>INR</option>
             <option value="USD">USD</option>
             <option value="EUR">EUR</option>
@@ -30,11 +34,15 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
           <div class="bg-white border border-gray-200 rounded-xl p-4">
             <h2 class="text-sm text-gray-500">Total Today</h2>
-            <div class="totalToday font-bold text-3xl text-green-600 mt-2">0.00</div>
+            <div class="totalToday font-bold text-3xl text-green-600 mt-2">
+              0.00
+            </div>
           </div>
           <div class="bg-white border border-gray-200 rounded-xl p-4">
             <h2 class="text-sm text-gray-500">Total Month</h2>
-            <div class="totalMonth font-bold text-3xl text-green-600 mt-2">0.00</div>
+            <div class="totalMonth font-bold text-3xl text-green-600 mt-2">
+              0.00
+            </div>
           </div>
         </div>
       </section>
@@ -100,40 +108,44 @@
       </section>
       <section class="p-4 max-w-6xl m-auto mt-6">
         <div class="bg-white border border-gray-200 rounded-2xl p-6">
-          <h2 class="text-xl md:text-2xl font-bold">Expenses</h2>
+          <div class="flex items-center gap-4">
+            <h2 class="text-xl md:text-2xl font-bold">Expenses</h2>
+            <button
+              id="exportCSV"
+              class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Export CSV
+            </button>
+          </div>
           <div class="noExpenses mt-4">
             <p>No Expenses added yet</p>
           </div>
           <div class="expensesList hidden">
             <div class="expensesTable mt-4 hidden md:block">
               <table class="table-fixed w-full text-left border-collapse">
-              <thead>
-                <tr class="border-b border-gray-200">
-                  <th class="py-3 px-4 text-sm font-semibold text-gray-600">
-                    Date
-                  </th>
-                  <th class="py-3 px-4 text-sm font-semibold text-gray-600">
-                    Category
-                  </th>
-                  <th class="py-3 px-4 text-sm font-semibold text-gray-600">
-                    Amount
-                  </th>
-                  <th class="py-3 px-4 text-sm font-semibold text-gray-600">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                
-              </tbody>
-            </table>
-          </div>
-          <div class="expensesCards mt-4 block md:hidden">
-
+                <thead>
+                  <tr class="border-b border-gray-200">
+                    <th class="py-3 px-4 text-sm font-semibold text-gray-600">
+                      Date
+                    </th>
+                    <th class="py-3 px-4 text-sm font-semibold text-gray-600">
+                      Category
+                    </th>
+                    <th class="py-3 px-4 text-sm font-semibold text-gray-600">
+                      Amount
+                    </th>
+                    <th class="py-3 px-4 text-sm font-semibold text-gray-600">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="expensesCards mt-4 block md:hidden"></div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
     </main>
     <script src="src/script.js"></script>
   </body>
