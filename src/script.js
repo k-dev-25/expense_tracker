@@ -61,8 +61,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   await getExchangeRates();
-  if (Object.keys(rates).length === 0) select.disabled = true;
-  else select.disabled = false;
+  if (Object.keys(rates).length === 0) {
+    if (currency !== "INR") {
+      select.value = "INR";
+      currency = "INR";
+      localStorage.setItem("currency", currency);
+      renderExpenses();
+    }
+    select.disabled = true;
+  } else select.disabled = false;
 
   function convertAmount(amount) {
     if (currency === "INR") return amount;
@@ -139,11 +146,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function updateTotals() {
-    if (expenses.length === 0) {
-      totalToday.innerText = "0.00";
-      totalMonth.innerText = "0.00";
-      return;
-    }
     let date = new Date();
     date = date.toISOString().split("T")[0];
     const today = date;
@@ -224,9 +226,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateTotals();
     expensesTableBody.innerHTML = "";
     expensesCardsContainer.innerHTML = "";
-    const sortedExpenses = [...expenses].sort((a, b) =>
-      b.date.localeCompare(a.date)
-    );
+    const sortedExpenses = [...expenses].sort((a, b) => {
+      const result = b.date.localeCompare(a.date);
+      return result == 0 ? b.id - a.id : result;
+    });
     sortedExpenses.forEach((expense) => {
       const row = document.createElement("tr");
       row.className = "border-b border-gray-100";
