@@ -3,7 +3,43 @@
 A feature-rich expense tracker built using **vanilla JavaScript**, **HTML**, and **Tailwind CSS**.  
 The app supports expense tracking, live currency conversion, local persistence, and robust error handling.
 
-Live Demo: *(add your GitHub Pages link here)*
+## Getting Started 🚀
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/k-dev-25/expense-tracker.git
+cd expense-tracker
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Build Tailwind CSS:
+```bash
+npm run build
+```
+
+4. For development with live CSS rebuild:
+```bash
+npm run dev
+```
+
+5. Open `index.html` in your browser or use a local server:
+```bash
+python3 -m http.server 8000
+# or
+npx serve
+```
+
+Then visit `http://localhost:8000` in your browser.
 
 ---
 
@@ -20,12 +56,11 @@ Live Demo: *(add your GitHub Pages link here)*
   - Card layout (mobile)
 - Delete expenses instantly
 - Expenses are sorted by **most recent date first**
+- **Export to CSV** - Download all expenses as a CSV file for use in Excel, Google Sheets, or other tools
 
----
-
-## Totals 📊
-- **Total Today**
-- **Total for Current Month**
+### Totals 📊
+- **Total Today** - Sum of all expenses from today
+- **Total for Current Month** - Sum of all expenses from the current month
 - Totals automatically update when:
   - Adding an expense
   - Deleting an expense
@@ -33,26 +68,19 @@ Live Demo: *(add your GitHub Pages link here)*
 
 ---
 
-## Currency Conversion 💱
+### Currency Conversion 💱
 
 - **Base currency:** INR
-- Supported currencies:
-  - INR
-  - USD
-  - EUR
-- Live exchange rates fetched from:
-[https://open.er-api.com/v6/latest/INR](https://open.er-api.com/v6/latest/INR)
+- **Supported currencies:** INR, USD, EUR
+- **Live exchange rates** fetched from: [ExchangeRate-API](https://open.er-api.com/v6/latest/INR)
 
-
-### How it works
+#### How it works
 - All expenses are stored internally in **INR**
 - Currency conversion happens **only during rendering**
 - Switching currency does **not** mutate stored expense data
 - Selected currency persists across page reloads
 
----
-
-## Smart Caching & Error Handling 🧠
+### Smart Caching & Error Handling 🧠
 
 - Exchange rates are:
   - Cached in `localStorage`
@@ -63,9 +91,7 @@ Live Demo: *(add your GitHub Pages link here)*
   - A graceful alert informs the user
 - The app never crashes due to API failure
 
----
-
-## Persistence 💾
+### Persistence 💾
 
 The app uses `localStorage` to persist:
 - Expenses list
@@ -79,11 +105,11 @@ No backend or database required.
 
 ## Tech Stack 🛠️
 
-- HTML5
-- Tailwind CSS
-- Vanilla JavaScript (ES6+)
-- ExchangeRate API (open.er-api.com)
-- GitHub Pages for deployment
+- **HTML5**
+- **Tailwind CSS v4** (with CLI)
+- **Vanilla JavaScript** (ES6+)
+- **ExchangeRate API** (open.er-api.com)
+- **localStorage** for data persistence
 
 ---
 
@@ -117,6 +143,8 @@ expense_tracker/
   - formatAmount()
   - updateTotals()
   - renderExpenses()
+  - buildCSV()
+  - downloadCSV()
 
 ---
 
@@ -130,11 +158,14 @@ expense_tracker/
 
 ## Possible Improvements 🔮
 
-- Category-wise analytics
-- Monthly charts
-- CSV export
-- Dark mode
-- Progressive Web App (PWA) support
+- 📊 Category-wise analytics and visualizations
+- 📈 Monthly spending charts
+- 📄 PDF export functionality
+- 🌙 Dark mode toggle
+- 📱 Progressive Web App (PWA) support
+- 🔍 Search and filter expenses
+- 🏷️ Custom categories management
+- 🔄 Budget tracking and alerts
 
 ---
 
@@ -142,3 +173,9 @@ expense_tracker/
 
 Built by **Kushal**  
 A learning-first project built from scratch without frameworks.
+
+---
+
+## License 📜
+
+MIT License - feel free to use this project for learning and personal use.
