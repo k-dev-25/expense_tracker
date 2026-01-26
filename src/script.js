@@ -44,6 +44,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function getExchangeRates() {
     const currentTime = Date.now();
     let lastTime = JSON.parse(localStorage.getItem("lastTime"));
+    const cachedRates = JSON.parse(localStorage.getItem("rates")) || {};
+    rates = cachedRates;
     if (lastTime === null || currentTime - lastTime > 24 * 60 * 60 * 1000) {
       try {
         const response = await fetch("https://open.er-api.com/v6/latest/INR");
@@ -56,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         alert(
           "New rates could not be fetched, but app will work with old rates."
         );
-        rates = JSON.parse(localStorage.getItem("rates")) || {};
+        rates = cachedRates;
       }
     }
   }
